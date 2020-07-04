@@ -12,8 +12,8 @@ int main () {
 
     while (t--) {
 
-        int l, n;
-        cin >> l >> n;
+        int lo, n;
+        cin >> lo >> n;
 
         int s = 0, l = 0;
 
@@ -21,8 +21,8 @@ int main () {
             int d;
             cin >> d;
 
-            s = max(s, min(d, l - d));
-            l = max(l, max(d, l - d));
+            s = max(s, min(d, lo - d));
+            l = max(l, max(d, lo - d));
         }
 
         cout << s << " " << l << "\n";
