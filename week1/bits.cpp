@@ -12,19 +12,28 @@ int main () {
 
     while (t--) {
 
-        ll n;
+        string n;
         cin >> n;
 
+        ll k = 0;
+        ll k2 = 0;
+        ll mx = 0;
+        for (int j = 0; j < n.size(); ++j) {
+            ll c = 0;
+            k = k2 + n[j] - 48;
+            k2 = k;
 
-        int c = 0;
-        int i = 0;
-        while (n > 0) {
-            int m = n % 2;
-            if (m == 1) c++;
-            n /= 2;
-            i++;
+            int i = 0;
+            while (k > 0) {
+                if (k % 2 == 1) c++; 
+                k /= 2;
+                i++;
+            }
+            k2 *= 10;
+            mx = max(mx, c);
         }
 
-        cout << c << "\n";
+    
+        cout << mx << "\n";
     }
 }
