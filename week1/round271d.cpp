@@ -10,15 +10,15 @@ int main () {
 
     ll MOD = 1E9 + 7;
 
-    int t, k;
+    ll t, k;
     cin >> t >> k;
 
-    vector <pair<int, int > > w;
-    int mx = 0;
+    vector <pair<ll, ll > > w;
+    ll mx = 0;
 
     while (t--) {
 
-        int a, b;
+        ll a, b;
         cin >> a >> b;
 
         w.pb(make_pair(a, b));
