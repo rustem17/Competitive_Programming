@@ -7,12 +7,11 @@ using namespace std;
 
 int ind_bs (int b, int e, vector <int> p, int sum) {
 
-    if (sum > p[p.size() - 1]) return p.size() - 1;
+    if (sum >= p[p.size() - 1]) return p.size() - 1;
     else if (sum == p[0]) return 0;
 
     while (b <= e) {
         int mid = b + (e - b) / 2;
-
         if (p[mid] == sum) return mid;
 
         if (p[mid] < sum) b = mid + 1;
@@ -26,36 +25,49 @@ int ind_bs (int b, int e, vector <int> p, int sum) {
     }
 }
 
+ll fc (ll sum, vector <ll> p) {
+
+    for (int i = 3; i != -1; --i) {
+        if (sum >= p[i]) return i; 
+    }
+}
+
 int main () {
 
     int n;
     cin >> n;
 
-    vector <int> a (n);
+    vector <ll> a (n);
 
     for (int i = 0; i < n; ++i) {
         cin >> a[i];
     }
 
-    vector <int> p (5);
+    vector <ll> p (5);
     for (int i = 0; i < 5; ++i) {
         cin >> p[i];
     }
 
-    vector <int> r (5, 0);
-    int sum = 0;
+    vector <ll> r (5, 0);
+    ll sum = 0;
 
     for (int i = 0; i < n; ++i) {
         sum += a[i];
+        if (sum >= p[4]) {
+            r[4] += sum / p[4];
+            sum = sum % p[4];
+            
+        }
 
         while (sum >= p[0]) {
-            int ind = ind_bs(0, n - 1, p, sum);
-            r[ind]++;
-            sum -= p[ind];\
+            ll nle = fc(sum, p);
+            r[nle] += sum / p[nle];
+            sum = sum % p[nle];
         }
+
     }
 
-    for (int i : r) {
+    for (ll i : r) {
         cout << i << " ";
     }
 
