@@ -45,18 +45,20 @@ int main () {
     }
     
     for (; i <= mx; ++i) {
-        tt[i] = (tt[i - 1] + tt[i - 2]) % MOD;
+        tt[i] = (tt[i - 1] + tt[i - k]) % MOD;
+    }
+
+    vector <ll> ccc (mx + 1);
+
+    ccc[0] = 0;
+
+    for (ll i = 1; i <= mx; i++) {
+        ccc[i] = ((tt[i] + ccc[i - 1]) % MOD);
     }
 
     for (ll j = 0; j < w.size(); ++j) {
         
-        ll sum = 0;
-
-        for (ll jj = w[j].first; jj <= w[j].second; ++jj) {
-            sum = (sum + tt[jj]) % MOD;
-        }
-
-        cout << sum << "\n";
+        cout << (MOD + ccc[w[j].second] - ccc[w[j].first - 1]) % MOD << "\n"; // MOD + was very important for test case 3
 
     }
 }
