@@ -29,42 +29,41 @@ int main () {
 
     ll sum = 0;
     int l1 = 0;
-    if (bo.size() > k) l1 = 4;
+    if (bo.size() > k) l1 = k;
     else l1 = bo.size();
     
     for (int i = 0; i < l1; ++i) {
         sum += bo[i];
     }
 
-    if (k - l1 > a.size() || k - l1 > b.size()) {
+    int kl1 = k - l1;
+
+    if (kl1 > a.size() || kl1 > b.size()) {
         
         cout << "-1\n";
         return 0;
     }
 
-    if (l1 < k) {
+    if (kl1 > 0) {
         sort(a.begin(), a.end());
         sort(b.begin(), b.end());
+    } else {
+        cout << sum << "\n";
+        return 0;
     }
 
     int p1 = 0, p2 = 0;
-    int ii1 = 0, ii2 = 0;
-
-    int kl1 = k - l1;
-
-    while (ii1 < k && ii2 < k) {
-        if (a[ii1] <= b[ii2] && p1 < kl1) {
+    
+    while (p1 < kl1 || p2 < kl1) {
+        if (a[p1] <= b[p2] && p1 < kl1) {
             p1++;
-            sum += a[ii1];
-            ii1+;
+            sum += a[p1];
         } else if (p2 < kl1) {
             p2++;
-            sum += b[ii2];
-            ii2++;
+            sum += b[p2];
         } else if (p1 < kl1) {
             p1++;
-            sum += a[ii1];
-            ii1+;
+            sum += a[p1];
         }
     }
 
