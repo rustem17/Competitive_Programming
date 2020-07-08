@@ -7,6 +7,8 @@ using namespace std;
 #define is insert
 #define mp make_pair
 
+//https://open.kattis.com/problems/shortestpath1
+
 struct node {
     vector <pair< ll, ll > > nn;
     ll d;
