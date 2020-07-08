@@ -6,66 +6,45 @@ using namespace std;
 #define pb push_back
 
 
+
+const int MOD = 1e9 + 7;
+
+
 int main () {
 
     int n, k;
     cin >> n >> k;
 
-    vector <int> a;
-    vector <int> b;
-
-    vector <int> bo;
+    vector <int> t[4];
+    vector <int> s[4];
 
     for (int i = 0; i < n; ++i) {
-        int tt, tt1, tt2;
-        cin >> tt >> tt1 >> tt2;
+        int tt, a, b;
+        cin >> tt >> a >> b;
 
-        if (tt1 == 1 && tt2 == 1) bo.pb(tt);
-        else if (tt1 == 1) b.pb(tt);
-        else if (tt2 == 1) a.pb(tt);
+        t[a * 2 + b].pb(tt);
     }
 
-    sort(bo.begin(), bo.end());
-
-    ll sum = 0;
-    int l1 = 0;
-    if (bo.size() > k) l1 = k;
-    else l1 = bo.size();
-    
-    for (int i = 0; i < l1; ++i) {
-        sum += bo[i];
-    }
-
-    int kl1 = k - l1;
-
-    if (kl1 > a.size() || kl1 > b.size()) {
-        
-        cout << "-1\n";
-        return 0;
-    }
-
-    if (kl1 > 0) {
-        sort(a.begin(), a.end());
-        sort(b.begin(), b.end());
-    } else {
-        cout << sum << "\n";
-        return 0;
-    }
-
-    int p1 = 0, p2 = 0;
-    
-    while (p1 < kl1 || p2 < kl1) {
-        if (a[p1] <= b[p2] && p1 < kl1) {
-            p1++;
-            sum += a[p1];
-        } else if (p2 < kl1) {
-            p2++;
-            sum += b[p2];
-        } else if (p1 < kl1) {
-            p1++;
-            sum += a[p1];
+    // getting prefix sums
+    for (int i = 0; i < 4; ++i) {
+        sort(t[i].begin(), t[i].end());
+        s[i].pb(0);
+        for (auto it : t[i]) {
+            s[i].pb(s[i].back() + it);
         }
     }
 
-    cout << sum << "\n";
+    // calculate till k + 1 or till size of both reading books time array
+    int ans = 2e9 + 1;
+    for (int i = 0; i < min(k + 1, int(s[3].size())); ++i) {
+        // if k - so far read books is less than left sizes of time vectors for alice and bob
+        if (k - i < int(s[1].size()) && k - i < int(s[2].size())) {
+            // choosing minimum combination of read books
+            ans = min(ans, s[3][i] + s[1][k - i] + s[2][k - i]);
+        }
+    }
+
+    if (ans == 2e9 + 1) cout << "-1\n";
+    else cout << ans << "\n";
+
 }
