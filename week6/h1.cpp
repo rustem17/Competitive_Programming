@@ -1,64 +1,51 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-#define ll long long
 
-const ll N = 1e9 + 7;
+const int N = 512000;
+int n, m, a[N], l[N], r[N];
 
-void build (vector <int>& tree, map <int, int>& mp, int node, int l, int r) {
+int main() {
 
-    if (l == r && x == l) {
+    cin >> n >> m;
+
+    for (int i = 1; i < N; ++i) {
+        l[i] = i - 1;
+        r[i] = i + 1;
+    }
+
+    r[0] = 1;
+
+    for (int i = 0; i < m; ++i) {
+
+        int le, re, w;
+        cin >> le >> re >> w;
     
-        tree[node] = -1;
-    
-    } else if (l == r && x != l) {
+        int li = w;
+        int ri = w;
 
-        tree[node] = x;
-        mp[l] = x;
+        for (int j = w; j >= le;) {
 
-    } else { // ?
+            j = l[j];
 
-        if (l > x || r < x) {
-
-            for (int i = l; i <= r; ++i) {
-                tree[i] = x;
-                mp[i] = x;
-            }
-
-        } else {
-
-            int m = l + (r - l) / 2;
-            build(tree, mp, x, 2 * node, l, m);
-            build(tree, mp, x, 2 * node + 1, m + 1, r);
+            if (j >= le) a[j] = w;
+            else li = j;
         }
-    }
-}
 
-int main () {
+        for (int j = w; j <= re;) {
+            j = r[j];
+            if (j <= re) a[j] = w;
+            ri = j;
+        }
 
-    int n, r;
-    cin >> n >> r;
-
-    vector <int> a (2 * n, -1); // segtree, num of nodes = 2n - 1;
-    map <int, int> ans;
-
-    for (int i = 0; i < r; ++i) {
-
-        int l, r, x;
-        cin >> l >> r >> x;
-
-        build(a, ans, 1, x, l, r);
-        // insert into the tree here and after processing request enter the results into map
+        l[w] = li;
+        r[w] = ri;
+        r[li] = w;
+        l[ri] = w;
     }
 
-    //...
-    // then for each request fill the tree (if the whole range will get x value, then set it to it, else: go deeper)
-    // if intersection with other branch -> go to both branches and check all until find the range of leaves that lie under it and have no x value
-
-    for (auto i = a.begin(); i != a.end(); ++i) {
-
-        cout << (i -> second == -1 ? 0 : i -> second) << " ";
-    }
-
+    for (int i = 1; i <= n; ++i) cout << a[i] << " ";
     cout << "\n";
+
+    return 0;
 }
